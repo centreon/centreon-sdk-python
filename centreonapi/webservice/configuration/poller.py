@@ -36,3 +36,15 @@ class Poller(object):
 
     def gethosts(self, pollername):
         return self.webservice.call_clapi('gethosts', 'INSTANCE', pollername)
+
+    def reload(self, pollername):
+        """
+        Reload a poller name
+        """
+        return self.webservice.call_clapi('pollerreload', None, pollername)
+
+    def restart(self, pollername):
+        """
+        Restart a poller name
+        """
+        return self.webservice.call_clapi('pollerrestart', None, pollername)
