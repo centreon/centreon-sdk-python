@@ -102,7 +102,7 @@ class Service(object):
         values = [hostname, servicename, '|'.join(trap)]
         return self.webservice.call_clapi('settrap', 'SERVICE', values)
 
-    def delcontact(self, hostname, servicename, trap):
+    def deltrap(self, hostname, servicename, trap):
         try:
             for i in trap:
                 values = [hostname, servicename, i]
