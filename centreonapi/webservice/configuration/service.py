@@ -73,8 +73,7 @@ class Service(object):
         except Exception:
             return False
 
-
-    def getcontactgrup(self, hostname, servicename):
+    def getcontactgroup(self, hostname, servicename):
         values = [hostname, servicename]
         return self.webservice.call_clapi('getcontactgroup', 'SERVICE', values)
 
