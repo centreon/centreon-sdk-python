@@ -33,7 +33,7 @@ class Service(object):
     def delhost(self):
         pass
 
-    def getmaro(self, hostname, servicename):
+    def getmacro(self, hostname, servicename):
         return self.webservice.call_clapi('getmacro', 'SERVICE', [hostname,servicename])
 
     def setmacro(self, hostname, servicename, name, value, description):
@@ -73,8 +73,7 @@ class Service(object):
         except Exception:
             return False
 
-
-    def getcontactgrup(self, hostname, servicename):
+    def getcontactgroup(self, hostname, servicename):
         values = [hostname, servicename]
         return self.webservice.call_clapi('getcontactgroup', 'SERVICE', values)
 
@@ -103,7 +102,7 @@ class Service(object):
         values = [hostname, servicename, '|'.join(trap)]
         return self.webservice.call_clapi('settrap', 'SERVICE', values)
 
-    def delcontact(self, hostname, servicename, trap):
+    def deltrap(self, hostname, servicename, trap):
         try:
             for i in trap:
                 values = [hostname, servicename, i]
