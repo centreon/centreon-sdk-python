@@ -4,7 +4,7 @@ from centreonapi.webservice.configuration.host import *
 from centreonapi.webservice.configuration.poller import Poller
 from centreonapi.webservice.configuration.hostgroups import Hostgroups
 from centreonapi.webservice.configuration.templates import Templates
-
+from centreonapi.webservice.configuration.commands import Commands
 
 class Centreon(object):
 
@@ -19,11 +19,13 @@ class Centreon(object):
         self.poller = Poller()
         self.hostgroups = Hostgroups()
         self.templates = Templates()
+        self.commands = Commands()
 
         self.availableHost = None
         self.availableHostGroups = None
         self.availablePoller = None
         self.availableTemplates = None
+        self.availableCommands = None
 
     def get_available_object(self):
         try:
@@ -31,6 +33,7 @@ class Centreon(object):
             self.availableHostGroups = self.hostgroups.list()
             self.availablePoller = self.poller.list()
             self.availableHostTemplates = self.templates.list()
+            self.availableCommands = self.commands.list()
         except Exception as exc:
             raise exc
 
@@ -60,6 +63,11 @@ class Centreon(object):
         if self.availableHostTemplates is None:
             self.get_available_object()
         return self._exists(name, self.availableHostTemplates)
+
+    def exists_commands(self, name):
+        if self.availableCommands is None:
+            self.availableCommands = self.commands.list()
+        return self._exists(name, self.availableCommands)
 
     def host_list(self):
         list_host = list()
