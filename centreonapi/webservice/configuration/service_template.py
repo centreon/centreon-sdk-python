@@ -2,6 +2,29 @@
 
 from centreonapi.webservice import Webservice
 
+class ServiceTemplateObj(object):
+
+    def __init__(self, properties):
+        self.description = properties['description']
+        self.alias = properties['alias']
+        self.command = properties['check command']
+        self.command_args = properties['check command arg']
+        self.active = properties['active checks enabled']
+        self.passive = properties['passive checks enabled']
+        self.max_attempts = properties['max check attempts']
+        self.interval = properties['normal check interval']
+        self.retry_interval = properties['retry check interval']
+
+    def description(self):
+        return self.description
+
+    def address(self):
+        return self.address()
+
+    def alias(self):
+        return self.alias()
+
+
 class ServiceTemplate(object):
     """
     Centreon Web Service Template Object
@@ -13,6 +36,16 @@ class ServiceTemplate(object):
 
     def list(self):
         return self.webservice.call_clapi('show', self.clapi_object)
+
+    def show(self, servicedescription):
+        values = [servicedescription]
+        return self.webservice.call_clapi('show', self.clapi_object, values)
+
+    def get(self, servicedescription):
+        list_service = self.show(servicedescription)
+        for service in list_service['result']:
+            if servicedescription == service['description']:
+                return ServiceTemplateObj(service)
 
     def add(self, servicedescription, servicename, template):
         values = [servicedescription, servicename, template]
