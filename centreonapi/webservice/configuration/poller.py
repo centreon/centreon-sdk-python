@@ -25,6 +25,16 @@ class Poller(object):
         """
         return self.webservice.call_clapi('show', 'INSTANCE')
 
+    def show(self, pollername):
+        values = [pollername]
+        return self.webservice.call_clapi('show', 'INSTANCE', values)
+
+    def get(self, pollername):
+        list_pollers = self.show(pollername)
+        for poller in list_pollers['result']:
+            if pollername == poller['name']:
+                return poller
+
     def add(self, *args, **kwargs):
         pass
 

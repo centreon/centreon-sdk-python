@@ -33,12 +33,23 @@ class Host(object):
         Constructor
         """
         self.webservice = Webservice.getInstance()
+        self.clapi_object = 'HOST'
 
     def list(self):
         """
         List hosts
         """
-        return self.webservice.call_clapi('show', 'HOST')
+        return self.webservice.call_clapi('show', self.clapi_object)
+
+    def show(self, hostname):
+        values = [hostname]
+        return self.webservice.call_clapi('show', self.clapi_object, values)
+
+    def get(self, hostname):
+        list_host = self.show(hostname)
+        for host in list_host['result']:
+            if hostname == host['name']:
+                return HostObj(host)
 
     def add(self, hostname, hostalias, hostip, hosttemplate, pollername, hgname):
         """
@@ -52,116 +63,113 @@ class Host(object):
             pollername,
             '|'.join(hgname)
         ]
-        return self.webservice.call_clapi('add', 'HOST', values)
+        return self.webservice.call_clapi('add', self.clapi_object, values)
 
     def delete(self, hostname):
-        return self.webservice.call_clapi('del', 'HOST', hostname)
+        return self.webservice.call_clapi('del', self.clapi_object, hostname)
 
     def setparameters(self, hostname, name, value):
         """
-        DEPRECATED 
+        DEPRECATED
         """
         return self.setparam(hostname, name, value)
 
     def setparam(self, hostname, name, value):
         values = [hostname, name, value]
-        return self.webservice.call_clapi('setparam', 'HOST', values)
+        return self.webservice.call_clapi('setparam', self.clapi_object, values)
 
     def setinstance(self, hostname, instance):
         values = [hostname, instance]
-        return self.webservice.call_clapi('setinstance', 'HOST', values)
+        return self.webservice.call_clapi('setinstance', self.clapi_object, values)
 
     def getmacro(self, hostname):
-        return self.webservice.call_clapi('getmacro', 'HOST', hostname)
+        return self.webservice.call_clapi('getmacro', self.clapi_object, hostname)
 
     def setmacro(self, hostname, name, value):
         values = [hostname, name, value]
-        return self.webservice.call_clapi('setmacro', 'HOST', values)
+        return self.webservice.call_clapi('setmacro', self.clapi_object, values)
 
     def deletemacro(self, hostname, name):
         values = [hostname, name]
-        return self.webservice.call_clapi('delmacro', 'HOST', values)
+        return self.webservice.call_clapi('delmacro', self.clapi_object, values)
 
     def gettemplate(self, hostname):
-        return self.webservice.call_clapi('gettemplate', 'HOST', hostname)
+        return self.webservice.call_clapi('gettemplate', self.clapi_object, hostname)
 
     def settemplate(self, hostname, template):
         values = [hostname, "|".join(template)]
-        return self.webservice.call_clapi('settemplate', 'HOST', values)
+        return self.webservice.call_clapi('settemplate', self.clapi_object, values)
 
     def addtemplate(self, hostname, template):
         values = [hostname, "|".join(template)]
-        return self.webservice.call_clapi('addtemplate', 'HOST', values)
+        return self.webservice.call_clapi('addtemplate', self.clapi_object, values)
 
     def deletetemplate(self, hostname, template):
         values = [hostname, "|".join(template)]
-        return self.webservice.call_clapi('delemplate', 'HOST', values)
+        return self.webservice.call_clapi('delemplate', self.clapi_object, values)
 
     def applytemplate(self, hostname):
         """
         Apply the host template to the host, deploy services
         """
-        return self.webservice.call_clapi('applytpl', 'HOST', hostname)
+        return self.webservice.call_clapi('applytpl', self.clapi_object, hostname)
 
     def getparent(self, hostname):
-        return self.webservice.call_clapi('getparent', 'HOST', hostname)
+        return self.webservice.call_clapi('getparent', self.clapi_object, hostname)
 
     def addparent(self, hostname, parents):
-        return self.webservice.call_clapi('addparent', 'HOST', [hostname, "|".join(parents)])
+        return self.webservice.call_clapi('addparent', self.clapi_object, [hostname, "|".join(parents)])
 
     def setparent(self, hostname, parents):
-        return self.webservice.call_clapi('setparent', 'HOST', [hostname, "|".join(parents)])
+        return self.webservice.call_clapi('setparent', self.clapi_object, [hostname, "|".join(parents)])
 
     def deleteparent(self, hostname, parents):
-        return self.webservice.call_clapi('delparent', 'HOST', [hostname, "|".join(parents)])
+        return self.webservice.call_clapi('delparent', self.clapi_object, [hostname, "|".join(parents)])
 
     def getcontactgroup(self, hostname):
-        return self.webservice.call_clapi('getcontactgroup', 'HOST', hostname)
+        return self.webservice.call_clapi('getcontactgroup', self.clapi_object, hostname)
 
     def addcontactgroup(self, hostname, contactgroups):
-        return self.webservice.call_clapi('addcontactgroup', 'HOST', [hostname, "|".join(contactgroups)])
+        return self.webservice.call_clapi('addcontactgroup', self.clapi_object, [hostname, "|".join(contactgroups)])
 
     def setcontactgroup(self, hostname, contactgroups):
-        return self.webservice.call_clapi('setcontactgroup', 'HOST', [hostname, "|".join(contactgroups)])
+        return self.webservice.call_clapi('setcontactgroup', self.clapi_object, [hostname, "|".join(contactgroups)])
 
     def deletecontactgroup(self, hostname, contactgroups):
-        return self.webservice.call_clapi('delcontactgroup', 'HOST', [hostname, "|".join(contactgroups)])
+        return self.webservice.call_clapi('delcontactgroup', self.clapi_object, [hostname, "|".join(contactgroups)])
 
     def getcontact(self, hostname):
-        return self.webservice.call_clapi('getcontact', 'HOST', hostname)
+        return self.webservice.call_clapi('getcontact', self.clapi_object, hostname)
 
     def addcontact(self, hostname, contacts):
-        return self.webservice.call_clapi('addcontact', 'HOST', [hostname, "|".join(contacts)])
+        return self.webservice.call_clapi('addcontact', self.clapi_object, [hostname, "|".join(contacts)])
 
     def setcontact(self, hostname, contacts):
-        return self.webservice.call_clapi('setcontact', 'HOST', [hostname, "|".join(contacts)])
+        return self.webservice.call_clapi('setcontact', self.clapi_object, [hostname, "|".join(contacts)])
 
     def deletecontact(self, hostname, contacts):
-        return self.webservice.call_clapi('delcontact', 'HOST', [hostname, "|".join(contacts)])
+        return self.webservice.call_clapi('delcontact', self.clapi_object, [hostname, "|".join(contacts)])
 
     def gethostgroup(self, hostname):
-        return self.webservice.call_clapi('gethostgroup', 'HOST', hostname)
+        return self.webservice.call_clapi('gethostgroup', self.clapi_object, hostname)
 
     def addhostgroup(self, hostname, hostgroups):
-        return self.webservice.call_clapi('addhostgroup', 'HOST', [hostname, "|".join(hostgroups)])
+        return self.webservice.call_clapi('addhostgroup', self.clapi_object, [hostname, "|".join(hostgroups)])
 
     def sethostgroup(self, hostname, hostgroups):
-        return self.webservice.call_clapi('sethostgroup', 'HOST', [hostname, "|".join(hostgroups)])
+        return self.webservice.call_clapi('sethostgroup', self.clapi_object, [hostname, "|".join(hostgroups)])
 
     def deletehostgroup(self, hostname, hostgroups):
-        return self.webservice.call_clapi('delhostgroup', 'HOST', [hostname, "|".join(hostgroups)])
+        return self.webservice.call_clapi('delhostgroup', self.clapi_object, [hostname, "|".join(hostgroups)])
 
     def setseverity(self, hostname, name):
-        return self.webservice.call_clapi('setseverity', 'HOST', [hostname, name    ])
+        return self.webservice.call_clapi('setseverity', self.clapi_object, [hostname, name    ])
 
     def unsetseverity(self, hostname):
-        return self.webservice.call_clapi('unsetseverity', 'HOST', hostname)
+        return self.webservice.call_clapi('unsetseverity', self.clapi_object, hostname)
 
     def enable(self, hostname):
-        return self.webservice.call_clapi('enable', 'HOST', hostname)
+        return self.webservice.call_clapi('enable', self.clapi_object, hostname)
 
     def disable(self, hostname):
-        return self.webservice.call_clapi('disable', 'HOST', hostname)
-
-
-
+        return self.webservice.call_clapi('disable', self.clapi_object, hostname)
